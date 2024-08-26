@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @AllArgsConstructor
@@ -16,6 +17,15 @@ public class BlueprintReqDto {
     private String name;
 
     @NotBlank(message = "Data must not be blank")
-    private String data;
+    private MultipartFile data;
+
+    @NotBlank(message = "IsDockerRemote must not be blank")
+    private Boolean isDockerRemote;
+
+    private String remoteUrl;
+
+    public void setData(MultipartFile data) {
+        this.data = data;
+    }
 
 }

@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -52,7 +53,9 @@ public class BlueprintController {
             @ApiResponse(responseCode = "200")
     })
     public ResponseEntity<Void> saveBlueprint(@PathVariable Long storageId,
-                                              @RequestBody @Valid BlueprintReqDto blueprintReqDto) {
+                                              @RequestPart @Valid BlueprintReqDto blueprintReqDto,
+                                              @RequestPart("data") MultipartFile data) {
+        blueprintReqDto.setData(data);
         blueprintService.saveBlueprint(storageId, blueprintReqDto);
 
         return ResponseEntity.ok().build();
@@ -65,7 +68,9 @@ public class BlueprintController {
     })
     public ResponseEntity<Void> modifyBlueprint(@PathVariable Long storageId,
                                                 @PathVariable Long blueprintId,
-                                                @RequestBody @Valid BlueprintReqDto blueprintReqDto) {
+                                                @RequestBody @Valid BlueprintReqDto blueprintReqDto,
+                                                @RequestPart("data") MultipartFile data) {
+        blueprintReqDto.setData(data);
         blueprintService.modifyBlueprint(storageId, blueprintId, blueprintReqDto);
 
         return ResponseEntity.ok().build();
