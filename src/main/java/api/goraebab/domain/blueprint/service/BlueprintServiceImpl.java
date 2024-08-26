@@ -13,7 +13,10 @@ import api.goraebab.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
@@ -22,6 +25,7 @@ public class BlueprintServiceImpl implements BlueprintService {
 
     private final BlueprintRepository blueprintRepository;
     private final StorageRepository storageRepository;
+    private final DockerSyncServiceImpl dockerSyncService;
 
     @Override
     @Transactional(readOnly = true)
@@ -50,22 +54,32 @@ public class BlueprintServiceImpl implements BlueprintService {
         Storage storage = storageRepository.findById(storageId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_VALUE));
 
+        String dataAsString = convertDataToString(blueprintReqDto.getData());
+
         Blueprint blueprint = Blueprint.builder()
                 .name(blueprintReqDto.getName())
-                .data(blueprintReqDto.getData())
+                .data(dataAsString)
                 .storage(storage)
+                .isDockerRemote(blueprintReqDto.getIsDockerRemote())
+                .dockerRemoteUrl(blueprintReqDto.getRemoteUrl())
                 .build();
 
         blueprintRepository.save(blueprint);
+
+        dockerSyncService.syncDockerWithBlueprint(blueprint.getId());
     }
 
     @Override
     @Transactional
     public void modifyBlueprint(Long storageId, Long blueprintId, BlueprintReqDto blueprintReqDto) {
+        String dataAsString = convertDataToString(blueprintReqDto.getData());
+
         Blueprint blueprint = findBlueprintByStorageAndId(storageId, blueprintId);
-        blueprint.modify(blueprintReqDto.getName(), blueprintReqDto.getData());
+        blueprint.modify(blueprintReqDto.getName(), dataAsString);
 
         blueprintRepository.save(blueprint);
+
+        dockerSyncService.syncDockerWithBlueprint(blueprintId);
     }
 
     @Override
@@ -79,6 +93,14 @@ public class BlueprintServiceImpl implements BlueprintService {
     private Blueprint findBlueprintByStorageAndId(Long storageId, Long blueprintId) {
         return blueprintRepository.findByStorageIdAndId(storageId, blueprintId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_VALUE));
+    }
+
+    private String convertDataToString(MultipartFile file) {
+        try {
+            return new String(file.getBytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new CustomException(ErrorCode.FILE_PROCESSING_ERROR);
+        }
     }
 
 }
