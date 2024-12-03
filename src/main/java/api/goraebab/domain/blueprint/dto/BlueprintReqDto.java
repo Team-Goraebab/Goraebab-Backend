@@ -9,24 +9,28 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Request DTO which Client sends when synchronize Docker with host.
+ *
+ * @author whitem4rk
+ * @version 1.0
+ */
 @Getter
 @NoArgsConstructor
 public class BlueprintReqDto {
 
-    @NotBlank(message = "Name must not be blank")
-    @Size(max = 255, message = "Name must be less than 255 characters")
-    @Schema(description = "The name of the blueprint.", example = "Project1 blueprint")
-    private String blueprintName;
+  @NotBlank(message = "Name must not be blank")
+  @Size(max = 255, message = "Name must be less than 255 characters")
+  @Schema(description = "The name of the blueprint.", example = "Project1 blueprint")
+  private String blueprintName;
 
-    @NotNull(message = "ProcessedData must not be blank")
-    @Schema(description = "Parsed data associated with the blueprint.")
-    private ProcessedData processedData;
+  @NotNull(message = "ProcessedData must not be blank")
+  @Schema(description = "Parsed data associated with the blueprint.")
+  private ProcessedData processedData;
 
-
-    @Builder
-    public BlueprintReqDto(String blueprintName, ProcessedData processedData) {
-        this.blueprintName = blueprintName;
-        this.processedData = processedData;
-    }
-
+  @Builder
+  public BlueprintReqDto(String blueprintName, ProcessedData processedData) {
+    this.blueprintName = blueprintName;
+    this.processedData = processedData;
+  }
 }

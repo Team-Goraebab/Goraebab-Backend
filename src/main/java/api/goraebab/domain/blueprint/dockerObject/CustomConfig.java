@@ -4,6 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * The type Custom config.
+ *
+ * @author whitem4rk
+ * @version 1.0
+ * @see ProcessedData
+ */
 @Getter
 @NoArgsConstructor
 public class CustomConfig {
@@ -14,5 +21,4 @@ public class CustomConfig {
   public CustomConfig(String subnet) {
     this.subnet = subnet;
   }
-
 }

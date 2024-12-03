@@ -6,6 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * The type Custom network.
+ *
+ * @author whitem4rk
+ * @version 1.0
+ * @see ProcessedData
+ */
 @Getter
 @NoArgsConstructor
 public class CustomNetwork {
@@ -22,9 +29,12 @@ public class CustomNetwork {
   @JsonProperty("containers")
   private List<CustomContainer> customContainers;
 
-
   @Builder
-  public CustomNetwork(String id, String name, String driver, CustomIpam customIpam,
+  public CustomNetwork(
+      String id,
+      String name,
+      String driver,
+      CustomIpam customIpam,
       List<CustomContainer> customContainers) {
     this.id = id;
     this.name = name;
@@ -32,5 +42,4 @@ public class CustomNetwork {
     this.customIpam = customIpam;
     this.customContainers = customContainers;
   }
-
 }

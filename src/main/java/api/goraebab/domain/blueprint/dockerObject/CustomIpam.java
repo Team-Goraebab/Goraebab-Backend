@@ -6,6 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * The type Custom ipam.
+ *
+ * @author whitem4rk
+ * @version 1.0
+ * @see ProcessedData
+ */
 @Getter
 @NoArgsConstructor
 public class CustomIpam {
@@ -13,10 +20,8 @@ public class CustomIpam {
   @JsonProperty("config")
   private List<CustomConfig> customConfig;
 
-
   @Builder
   public CustomIpam(List<CustomConfig> customConfig) {
     this.customConfig = customConfig;
   }
-
 }

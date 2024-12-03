@@ -6,6 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * The type Custom container.
+ *
+ * @author whitem4rk
+ * @version 1.0
+ * @see ProcessedData
+ */
 @Getter
 @NoArgsConstructor
 public class CustomContainer {
@@ -32,11 +39,16 @@ public class CustomContainer {
   @JsonProperty("cmd")
   private List<String> customCmd;
 
-
   @Builder
-  public CustomContainer(String containerId, String containerName, CustomImage customImage,
-      CustomNetworkSettings customNetworkSettings, List<CustomPort> customPorts,
-      List<CustomMount> customMounts, List<String> customEnv, List<String> customCmd) {
+  public CustomContainer(
+      String containerId,
+      String containerName,
+      CustomImage customImage,
+      CustomNetworkSettings customNetworkSettings,
+      List<CustomPort> customPorts,
+      List<CustomMount> customMounts,
+      List<String> customEnv,
+      List<String> customCmd) {
     this.containerId = containerId;
     this.containerName = containerName;
     this.customImage = customImage;
@@ -46,5 +58,4 @@ public class CustomContainer {
     this.customEnv = customEnv;
     this.customCmd = customCmd;
   }
-
 }

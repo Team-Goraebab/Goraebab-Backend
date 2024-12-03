@@ -14,6 +14,30 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+/**
+ * Configuration class for JPA and database connection setup.
+ *
+ * <p>This class configures database-related properties, including dialect detection based on the
+ * {@code spring.datasource.url}, and provides a {@link DataSource} bean for database access.
+ *
+ * <p>Additionally, this configuration enables JPA auditing, allowing automatic management of entity
+ * audit fields.
+ *
+ * <p>Supported DBMS dialects include:
+ *
+ * <ul>
+ *   <li>MySQL
+ *   <li>MariaDB
+ *   <li>PostgreSQL
+ *   <li>Oracle
+ *   <li>SQL Server
+ * </ul>
+ *
+ * @author whitem4rk
+ * @version 1.0
+ * @see JpaProperties
+ * @see DataSource
+ */
 @Configuration
 @EnableJpaAuditing
 public class JpaConfig {
@@ -36,16 +60,17 @@ public class JpaConfig {
   private static final String MYSQL_DIALECT = "org.hibernate.dialect.MySQL8Dialect";
   private static final String MARIADB_DIALECT = "org.hibernate.dialect.MariaDBDialect";
   private static final String POSTGRESQL_DIALECT = "org.hibernate.dialect.PostgreSQLDialect";
-   private static final String ORACLE_DIALECT = "org.hibernate.dialect.OracleDialect";
+  private static final String ORACLE_DIALECT = "org.hibernate.dialect.OracleDialect";
   private static final String SQLSERVER_DIALECT = "org.hibernate.dialect.SQLServerDialect";
 
-  private static final EnumMap<DBMS, String> DIALECT_MAP = new EnumMap<>(Map.of(
-      MYSQL, MYSQL_DIALECT,
-      MARIADB, MARIADB_DIALECT,
-      POSTGRESQL, POSTGRESQL_DIALECT,
-      ORACLE, ORACLE_DIALECT,
-      SQLSERVER, SQLSERVER_DIALECT
-  ));
+  private static final EnumMap<DBMS, String> DIALECT_MAP =
+      new EnumMap<>(
+          Map.of(
+              MYSQL, MYSQL_DIALECT,
+              MARIADB, MARIADB_DIALECT,
+              POSTGRESQL, POSTGRESQL_DIALECT,
+              ORACLE, ORACLE_DIALECT,
+              SQLSERVER, SQLSERVER_DIALECT));
 
   public JpaConfig(JpaProperties jpaProperties) {
     this.jpaProperties = jpaProperties;
@@ -66,7 +91,8 @@ public class JpaConfig {
     return DIALECT_MAP.keySet().stream()
         .filter(dbms -> datasourceUrl.toUpperCase().contains(dbms.name()))
         .findFirst()
-        .orElseThrow(() -> new IllegalArgumentException("Unsupported Database Type: " + datasourceUrl));
+        .orElseThrow(
+            () -> new IllegalArgumentException("Unsupported Database Type: " + datasourceUrl));
   }
 
   @Bean
@@ -78,5 +104,4 @@ public class JpaConfig {
         .driverClassName(driverClassName)
         .build();
   }
-
 }

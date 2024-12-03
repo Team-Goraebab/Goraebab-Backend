@@ -6,6 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * The type Custom host.
+ *
+ * @author whitem4rk
+ * @version 1.0
+ * @see ProcessedData
+ */
 @Getter
 @NoArgsConstructor
 public class CustomHost {
@@ -23,13 +30,16 @@ public class CustomHost {
   private String ip;
 
   @Builder
-  public CustomHost(String id, List<CustomNetwork> customNetwork, List<CustomVolume> customVolume,
-      Boolean isRemote, String ip) {
+  public CustomHost(
+      String id,
+      List<CustomNetwork> customNetwork,
+      List<CustomVolume> customVolume,
+      Boolean isRemote,
+      String ip) {
     this.id = id;
     this.customNetwork = customNetwork;
     this.customVolume = customVolume;
     this.isRemote = isRemote;
     this.ip = ip;
   }
-
 }

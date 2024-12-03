@@ -5,6 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Response DTO which client request list of Docker daemon connections.
+ *
+ * @author whitem4rk
+ * @version 1.0
+ */
 @Getter
 @NoArgsConstructor
 public class DaemonResDto {
@@ -21,7 +27,6 @@ public class DaemonResDto {
   @Schema(description = "The name of the Docker daemon.", example = "Gorae's Docker daemon")
   private String name;
 
-
   @Builder
   public DaemonResDto(Long daemonId, String host, Integer port, String name) {
     this.daemonId = daemonId;
@@ -29,5 +34,4 @@ public class DaemonResDto {
     this.port = port;
     this.name = name;
   }
-
 }
